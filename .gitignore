@@ -1,0 +1,21 @@
+# Python environment
+.venv/
+__pycache__/
+*.pyc
+
+# Raw + processed dataset (14GB) -- regenerate via dataset_processing/ scripts
+datasets/
+
+# Model weights -- pretrained downloads are re-fetched by Ultralytics;
+# trained checkpoints are large binaries that don't belong in git history
+*.pt
+
+# Raw per-image inference dumps (hundreds of jpgs per model, no curation value).
+# The curated val-*/test-* plots (confusion matrices, PR curves, batch previews)
+# and the top-level experiment_results_*.csv files are kept.
+results/runs-baseline/detect/predict-*/
+results/runs-ca_cbam/detect/predict-*/
+
+# OS / editor junk
+.DS_Store
+.virtual_documents/
