@@ -1,0 +1,23 @@
+names:
+  0: RaccoonDog
+  1: Hare
+  2: MuskDeer
+  3: LeopardCat
+  4: RedFox
+  5: WildBoar
+  6: SikaDeer
+  7: RoeDeer
+  8: AmurTiger
+  9: Weasel
+  10: Leopard
+  11: Sable
+  12: BlackBear
+  13: Badger
+  14: Y.T.Marten
+  15: Dog
+  16: Cow
+nc: 17
+path: /kaggle/input/datasets/jharshin/raw-dataset/voc_night/yolo_dataset
+test: images/test
+train: images/train
+val: images/val
