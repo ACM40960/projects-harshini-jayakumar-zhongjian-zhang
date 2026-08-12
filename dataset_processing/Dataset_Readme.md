@@ -86,7 +86,7 @@ The random seed (`SEED = 42`) is fixed, so the split is reproducible by running 
 
 ---
 
-## 4. v1 — Photometric Augmentation (Low-Light Enhancement)
+## 4. v1 - Photometric Augmentation (Low-Light Enhancement)
 
 Applied **only to the training set**; validation and test sets are copied unchanged to keep evaluation unbiased.
 
@@ -128,15 +128,15 @@ The raw dataset has relatively few samples for `Y.T.Marten`, `Dog`, and `Cow`. T
 | Test | 1,050 | 1,080 |
 | **Total** | **12,665** | **13,099** |
 
-Verification: **PASSED** — 0 missing labels, 0 orphan labels, 0 empty labels, 0 invalid labels.
+Verification: **PASSED** - 0 missing labels, 0 orphan labels, 0 empty labels, 0 invalid labels.
 
 ---
 
-## 5. v2 — BBox-aware CutOut Augmentation (Occlusion Robustness)
+## 5. v2 - BBox-aware CutOut Augmentation (Occlusion Robustness)
 
 Built **on top of v1** (`enhanced_yolo_dataset` is copied wholesale, then additional images are added to the training set only). Targets the classes the v1 baseline scored lowest on: `Dog`, `RoeDeer`, `Badger`, `Y.T.Marten`.
 
-For a selected training image, a small patch inside one object's bounding box is masked with that region's median color (never a jarring solid block), capped so the masked area never exceeds 20% of the box — the goal is partial occlusion robustness, not destroying the object.
+For a selected training image, a small patch inside one object's bounding box is masked with that region's median color (never a jarring solid block), capped so the masked area never exceeds 20% of the box - the goal is partial occlusion robustness, not destroying the object.
 
 | Image type | CutOut probability |
 |---|---:|
@@ -183,7 +183,7 @@ Target class distribution (new CutOut images only):
 | Test | 1,050 | 1,080 |
 | **Total** | **14,090** | **14,589** |
 
-Verification: **PASSED** — 0 missing labels, 0 orphan labels, 0 empty labels, 0 invalid labels.
+Verification: **PASSED** - 0 missing labels, 0 orphan labels, 0 empty labels, 0 invalid labels.
 
 ---
 
@@ -218,7 +218,7 @@ datasets/
     └── v2_dataset_verification_report.txt
 ```
 
-`datasets/` is not tracked in git (14GB) — regenerate it locally by running the scripts below in order.
+`datasets/` is not tracked in git (14GB) - regenerate it locally by running the scripts below in order.
 
 ---
 
