@@ -1,6 +1,18 @@
 # AI-Driven Wildlife Recognition Under Low-Light Conditions
 ## Data Augmentation and Attention-Enhanced YOLOv8 for Camera-Trap Animal Detection
 
+<p align="center">
+  <img 
+    src="https://github.com/user-attachments/assets/2a99fe92-425d-4c9d-9c83-a352d1a390c2"
+    alt="Enhanced YOLOv8s Architecture"
+    width="95%"
+  />
+</p>
+
+<p align="center">
+  <em>Overall architecture of the enhanced YOLOv8s framework with multi-scale CA-CBAM attention.</em>
+</p>
+
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/-bKyY6qM)
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=24125444&assignment_repo_type=AssignmentRepo)
 
@@ -328,8 +340,9 @@ Normalized confusion matrices, baseline vs. CA-CBAM, on the same test set - the 
 
 ## Future Enhancements
 
-- **Isolate architecture from loss.** Isolate the effect of Focal Loss. Evaluate Focal Loss independently on the V2 YOLOv8s baseline without CA-CBAM, to determine whether V4's performance regression originates from Focal Loss itself or its interaction with CA-CBAM.
-- **Targeted fixes for remaining hard classes.** Class-specific oversampling or hard-negative mining for Y.T. Marten and the RedFox/AmurTiger confusion pair, rather than relying on global augmentation and loss re-weighting alone.
+- **Isolate the effect of Focal Loss.** Conduct a controlled ablation by applying Focal Loss directly to the V2 YOLOv8s baseline **without CA-CBAM**. Comparing `V2 → V2 + Focal Loss` with `V3 → V4` would help determine whether V4's performance regression is caused by Focal Loss itself or by its interaction with CA-CBAM.
+
+- **Targeted improvements for remaining hard classes.** Explore class-specific oversampling or hard-negative mining for Y.T. Marten and the RedFox/AmurTiger confusion pair, rather than relying solely on global augmentation and loss re-weighting.
 
 ---
 
