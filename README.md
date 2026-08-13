@@ -9,13 +9,13 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [Installation & Setup](#installation-setup)
+2. [Installation & Setup](#installation--setup)
 3. [Directory Structure](#directory-structure)
 4. [Methodology](#methodology)
 5. [Future Enhancements](#future-enhancements)
 6. [Poster](#poster)
 7. [References](#references)
-8. [Contributors](#contributors)
+8. [Authors / Contributors](#authors--contributors)
 
 ---
 
@@ -341,10 +341,13 @@ The project's research poster - covering the Raw/V1/V2/CA-CBAM performance compa
 
 ## References
 
+## References
+
 - Ghiasi, G., Cui, Y., Srinivas, A., Qian, R., Lin, T. Y., Cubuk, E. D., Le, Q. V., & Zoph, B. (2021). ”Simple copy-paste is a strong data augmentation method for instance segmentation.” In Proceedings of the IEEE/CVF CVPR, pp. 2918-2928.
 - Hou, Q., Zhou, D., & Ji, M. (2021). ”Coordinate attention for efficient mobile network design.” In Proceedings of the IEEE/CVF CVPR, pp. 13713-13722.
 - Hu, J., Shen, L., & Sun, G. (2018). ”Squeeze-and-excitation networks.” In Proceedings of the IEEE CVPR, pp. 7132-7141.
 - Lin, T. Y., Goyal, P., Girshick, R., He, K., & Doll´ar, P. (2017). ”Focal loss for dense object detection.” In Proceedings of the IEEE ICCV, pp 2980-2988.
+- Ultralytics. (2023). ”YOLOv8.” Ultralytics YOLO Documentation and GitHub Repository. Available at: https://github.com/ultralytics/ultralytics
 - Wang, J., Wan, G., Yin, S., Zhang, Y., & Gao, F. (2024). ”Nighttime wildlife object detection based on YOLOv8-night.” Electronics Letters, 60(15), e13305.
 - Woo, S., Park, J., Lee, J. Y., & Kweon, I. S. (2018). ”CBAM: Convolutional block attention module.” In Proceedings of the European Conference on Computer Vision (ECCV), pp. 3-19.
 
