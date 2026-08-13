@@ -9,7 +9,7 @@
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [Installation & Setup](#installation--setup)
+2. [Installation and Setup](#installation-and-setup)
 3. [Directory Structure](#directory-structure)
 4. [Methodology](#methodology)
 5. [Future Enhancements](#future-enhancements)
@@ -51,7 +51,7 @@ Five trained YOLOv8s variants (raw, V1, V2, V3, V4), each with full validation/t
 
 ---
 
-## Installation & Setup
+## Installation and Setup
 
 This project spans two execution environments:
 
@@ -328,7 +328,7 @@ Normalized confusion matrices, baseline vs. CA-CBAM, on the same test set - the 
 
 ## Future Enhancements
 
-- **Isolate architecture from loss.** Run CA-CBAM without Focal Loss and Focal Loss without CA-CBAM independently on the same fixed dataset to cleanly attribute V4's mAP50-95 regression to one change or the other, rather than the bundled V3→V4 step.
+- **Isolate architecture from loss.** Isolate the effect of Focal Loss. Evaluate Focal Loss independently on the V2 YOLOv8s baseline without CA-CBAM, to determine whether V4's performance regression originates from Focal Loss itself or its interaction with CA-CBAM.
 - **Targeted fixes for remaining hard classes.** Class-specific oversampling or hard-negative mining for Y.T. Marten and the RedFox/AmurTiger confusion pair, rather than relying on global augmentation and loss re-weighting alone.
 
 ---
@@ -338,8 +338,6 @@ Normalized confusion matrices, baseline vs. CA-CBAM, on the same test set - the 
 The project's research poster - covering the Raw/V1/V2/CA-CBAM performance comparison, difficult-class recall analysis, and error analysis - is available at [`poster/poster.pdf`](poster/poster.pdf).
 
 ---
-
-## References
 
 ## References
 
@@ -353,7 +351,7 @@ The project's research poster - covering the Raw/V1/V2/CA-CBAM performance compa
 
 ---
 
-## Authors / Contributors
+## Authors/ Contributors
 
 | Name | Student ID | 
 |---|---|
