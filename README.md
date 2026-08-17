@@ -304,7 +304,7 @@ V4 additionally replaces the classification loss with **Focal Loss** (γ=2.0, α
 
 | Model | Dataset | Val mAP50 | Val mAP50-95 | Test mAP50 | Test mAP50-95 |
 |---|---|---:|---:|---:|---:|
-| YOLOv8s baseline | Raw | 0.9779 | 0.8557 | 0.9757 | 0.8568 |
+| YOLOv8s baseline | Raw | 0.9779 | 0.8557 | 0.9757 | 0.8561 |
 | YOLOv8s baseline | V1 (photometric aug.) | 0.9772 | 0.8527 | 0.9725 | 0.8547 |
 | YOLOv8s baseline | V2 (+ CutOut aug.) | 0.9812 | 0.8579 | 0.9678 | 0.8475 |
 | YOLOv8s + CA-CBAM (V3) | V2 | 0.9757 | 0.8480 | 0.9783 | 0.8461 |
