@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import CLASS_NAMES, IMAGE_SUFFIXES, SEED, YOLO_ROOT
 
 
-def main():
+def main() -> None:
     random.seed(SEED)
 
     source_images = YOLO_ROOT / "images" / "all"

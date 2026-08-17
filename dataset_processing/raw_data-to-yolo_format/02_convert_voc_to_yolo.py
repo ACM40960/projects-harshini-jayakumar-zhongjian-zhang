@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import CLASS_NAMES, IMAGE_SUFFIXES, VOC_IMAGES, VOC_XML, YOLO_ROOT
 
 
-def main():
+def main() -> None:
     image_map = {
         p.stem: p for p in VOC_IMAGES.iterdir()
         if p.is_file() and p.suffix.lower() in IMAGE_SUFFIXES

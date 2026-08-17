@@ -3,35 +3,38 @@
 Masks a small patch inside an object's bounding box with the region's median
 color, applied more often on classes the baseline model struggled with.
 """
-from pathlib import Path
-from collections import Counter
 import random
 import shutil
+import sys
+from collections import Counter
+from pathlib import Path
 
 import cv2
 import numpy as np
+from numpy.typing import NDArray
 
-ROOT = Path(__file__).resolve().parent.parent.parent / "datasets"
-V1_ROOT = ROOT / "enhanced_yolo_dataset"
-V2_ROOT = ROOT / "enhanced_yolo_dataset_v2"
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from config import CLASS_NAMES, ENHANCED_ROOT, ENHANCED_ROOT_V2, IMAGE_SUFFIXES, SEED
 
-CLASS_NAMES = [
-    "RaccoonDog", "Hare", "MuskDeer", "LeopardCat", "RedFox",
-    "WildBoar", "SikaDeer", "RoeDeer", "AmurTiger", "Weasel",
-    "Leopard", "Sable", "BlackBear", "Badger", "Y.T.Marten",
-    "Dog", "Cow",
-]
+V1_ROOT = ENHANCED_ROOT
+V2_ROOT = ENHANCED_ROOT_V2
 
 HARD_CLASSES = {"Dog", "RoeDeer", "Badger", "Y.T.Marten"}  # classes the v1 baseline scored lowest on
-IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".bmp"}
 
-SEED = 42
 NORMAL_CUTOUT_PROB = 0.15
 HARD_CLASS_CUTOUT_PROB = 0.60
 MAX_OCCLUSION_RATIO = 0.20  # cap how much of the box can be masked, so the object stays recognizable
 
 
-def read_yolo_labels(label_path):
+def read_yolo_labels(label_path: Path) -> list[dict]:
+    """Parse a YOLO label file into a list of object dicts.
+
+    Args:
+        label_path: Path to a `.txt` label file (one object per line).
+
+    Returns:
+        A list of dicts with keys `class_id`, `x_center`, `y_center`, `width`, `height`.
+    """
     objects = []
 
     for line in label_path.read_text(encoding="utf-8").splitlines():
@@ -52,7 +55,20 @@ def read_yolo_labels(label_path):
     return objects
 
 
-def yolo_to_xyxy(obj, image_width, image_height):
+def yolo_to_xyxy(
+    obj: dict, image_width: int, image_height: int
+) -> tuple[int, int, int, int]:
+    """Convert a normalized YOLO box to pixel-space coordinates.
+
+    Args:
+        obj: A YOLO object dict as returned by `read_yolo_labels`.
+        image_width: Image width in pixels.
+        image_height: Image height in pixels.
+
+    Returns:
+        The box as (xmin, ymin, xmax, ymax) pixel coordinates, clamped to
+        the image bounds.
+    """
     box_width = obj["width"] * image_width
     box_height = obj["height"] * image_height
     center_x = obj["x_center"] * image_width
@@ -71,7 +87,18 @@ def yolo_to_xyxy(obj, image_width, image_height):
     return xmin, ymin, xmax, ymax
 
 
-def apply_bbox_cutout(image, bbox):
+def apply_bbox_cutout(
+    image: NDArray[np.uint8], bbox: tuple[int, int, int, int]
+) -> NDArray[np.uint8] | None:
+    """Mask a random patch inside `bbox` with the region's median color.
+
+    Args:
+        image: BGR image array.
+        bbox: (xmin, ymin, xmax, ymax) pixel coordinates of the target box.
+
+    Returns:
+        The modified image, or None if the box is too small to safely cut.
+    """
     xmin, ymin, xmax, ymax = bbox
     bbox_width = xmax - xmin
     bbox_height = ymax - ymin
@@ -116,7 +143,15 @@ def apply_bbox_cutout(image, bbox):
     return result
 
 
-def choose_target_object(objects):
+def choose_target_object(objects: list[dict]) -> dict:
+    """Pick the object to apply CutOut to, preferring hard classes when present.
+
+    Args:
+        objects: YOLO object dicts for one image, as returned by `read_yolo_labels`.
+
+    Returns:
+        One object dict from `objects`.
+    """
     hard_objects = [
         obj for obj in objects
         if CLASS_NAMES[obj["class_id"]] in HARD_CLASSES
@@ -124,7 +159,15 @@ def choose_target_object(objects):
     return random.choice(hard_objects if hard_objects else objects)
 
 
-def get_cutout_probability(objects):
+def get_cutout_probability(objects: list[dict]) -> float:
+    """Return the CutOut probability for an image, based on its classes.
+
+    Args:
+        objects: YOLO object dicts for one image, as returned by `read_yolo_labels`.
+
+    Returns:
+        `HARD_CLASS_CUTOUT_PROB` if any hard class is present, else `NORMAL_CUTOUT_PROB`.
+    """
     image_classes = {CLASS_NAMES[obj["class_id"]] for obj in objects}
     return (
         HARD_CLASS_CUTOUT_PROB
@@ -133,7 +176,7 @@ def get_cutout_probability(objects):
     )
 
 
-def main():
+def main() -> None:
     random.seed(SEED)
     np.random.seed(SEED)
 

@@ -27,7 +27,7 @@
 5. [Future Enhancements](#future-enhancements)
 6. [Poster](#poster)
 7. [References](#references)
-8. [Authors / Contributors](#authors--contributors)
+8. [Contributors](#contributors)
 
 ---
 
@@ -327,12 +327,12 @@ Full metrics (precision/recall included) per run: [results/experiment_results_ra
 </tr>
 </table>
 
-Normalized confusion matrices, baseline vs. CA-CBAM, on the same test set - the diagonal brightens for classes like Dog and Sable under CA-CBAM (V3), consistent with the recall gains below.
+Normalized confusion matrices, baseline vs. CA-CBAM, on the same test set - the diagonal brightens for classes like Dog and Sable under CA-CBAM (V3), consistent with the recall gains below. 
 
 **Key findings:**
 - Augmentation (V1, V2) alone barely moves the needle over the raw baseline - the plain YOLOv8s recipe is already strong on this dataset.
 - CA-CBAM (V3) achieves the highest test mAP50 (0.9783) but does **not** improve mAP50-95 over the plain baseline - it helps loose localization, not tight box precision.
-- CA-CBAM's gains show up **per-class**, not globally: recall improves on historically hard classes - **Dog (+23pp), Sable (+14pp), Weasel (+6pp)** vs. the V2 baseline - even though the aggregate mAP50-95 doesn't move.
+- CA-CBAM's gains show up **per-class**, not globally: recall improves on historically hard classes - **Dog (+23pp), Sable (+14pp), Weasel (+6pp)** vs. the V2 baseline - even though the aggregate mAP50-95 doesn't move. This is a real trade-off, not a uniform win: **Cow's recall drops 9pp** (0.92 → 0.83) over the same comparison, so attention is reallocating capacity across classes rather than improving all of them at once.
 - **Y.T. Marten stays hard (recall ≈ 0.64)** across every variant, and RedFox↔AmurTiger confusion persists in nighttime frames even in the best model.
 - Adding Focal Loss on top of CA-CBAM (V4) *hurts* performance, particularly on minority classes - likely because YOLOv8's task-aligned assigner produces continuous, IoU-weighted soft targets, and Focal Loss's alpha/gamma weighting was validated on hard 0/1 labels, not soft ones.
 
@@ -344,11 +344,13 @@ Normalized confusion matrices, baseline vs. CA-CBAM, on the same test set - the 
 
 - **Targeted improvements for remaining hard classes.** Explore class-specific oversampling or hard-negative mining for Y.T. Marten and the RedFox/AmurTiger confusion pair, rather than relying solely on global augmentation and loss re-weighting.
 
+- **Improve localization, not just detection.** CA-CBAM wins on mAP50 but not mAP50-95 - investigate whether it's systematically biasing predicted box size/position, and explore methods to tighten bounding-box precision and generalize better to challenging IR scenes.
+
 ---
 
 ## Poster
 
-The project's research poster - covering the Raw/V1/V2/CA-CBAM performance comparison, difficult-class recall analysis, and error analysis - is available at [`poster/poster.pdf`](poster/poster.pdf).
+The project's research poster - covering the Raw/V1/V2/CA-CBAM performance comparison, difficult-class recall analysis, and error analysis - is available at [`poster.pdf`](poster.pdf).
 
 ---
 
@@ -364,7 +366,7 @@ The project's research poster - covering the Raw/V1/V2/CA-CBAM performance compa
 
 ---
 
-## Authors/ Contributors
+## Contributors
 
 | Name | Student ID | 
 |---|---|

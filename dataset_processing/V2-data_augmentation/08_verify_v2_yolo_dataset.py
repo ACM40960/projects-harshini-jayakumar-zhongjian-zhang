@@ -1,21 +1,23 @@
 """Verify the integrity of the final (v2) YOLO dataset and report results."""
-from pathlib import Path
+import sys
 from collections import Counter
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from config import CLASS_NAMES, ENHANCED_ROOT_V2, IMAGE_SUFFIXES
+
+DATASET_ROOT = ENHANCED_ROOT_V2
 
 
-DATASET_ROOT = Path(__file__).resolve().parent.parent.parent / "datasets" / "enhanced_yolo_dataset_v2"
+def verify_label(label_path: Path) -> tuple[int, Counter, bool, bool]:
+    """Validate one YOLO label file's contents.
 
-CLASS_NAMES = [
-    "RaccoonDog", "Hare", "MuskDeer", "LeopardCat", "RedFox",
-    "WildBoar", "SikaDeer", "RoeDeer", "AmurTiger", "Weasel",
-    "Leopard", "Sable", "BlackBear", "Badger", "Y.T.Marten",
-    "Dog", "Cow",
-]
+    Args:
+        label_path: Path to a `.txt` label file (one object per line).
 
-IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".bmp"}
-
-
-def verify_label(label_path):
+    Returns:
+        A tuple of (object_count, class_count, is_empty, is_invalid).
+    """
     lines = [
         line.strip()
         for line in label_path.read_text(encoding="utf-8").splitlines()
@@ -61,7 +63,16 @@ def verify_label(label_path):
     return object_count, class_count, False, invalid
 
 
-def verify_split(split):
+def verify_split(split: str) -> dict:
+    """Verify one dataset split (train/val/test) and summarize its contents.
+
+    Args:
+        split: Split name, one of "train", "val", "test".
+
+    Returns:
+        A dict of counts: images, labels, objects, missing_labels,
+        orphan_labels, empty_labels, invalid_labels, class_count.
+    """
     image_dir = DATASET_ROOT / "images" / split
     label_dir = DATASET_ROOT / "labels" / split
 
@@ -105,7 +116,7 @@ def verify_split(split):
     }
 
 
-def main():
+def main() -> None:
     splits = ["train", "val", "test"]
     results = {split: verify_split(split) for split in splits}
 

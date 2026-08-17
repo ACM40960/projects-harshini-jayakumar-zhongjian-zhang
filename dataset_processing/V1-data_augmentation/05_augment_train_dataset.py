@@ -11,6 +11,7 @@ from pathlib import Path
 
 import cv2
 import numpy as np
+from numpy.typing import NDArray
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import (
@@ -23,7 +24,15 @@ NORMAL_PROB = 0.30
 MINORITY_PROB = 0.80  # augment minority classes more aggressively to offset imbalance
 
 
-def gamma_adjust(image):
+def gamma_adjust(image: NDArray[np.uint8]) -> NDArray[np.uint8]:
+    """Apply a random gamma correction to simulate different exposure levels.
+
+    Args:
+        image: BGR image array.
+
+    Returns:
+        The gamma-adjusted image, same shape and dtype as the input.
+    """
     gamma = random.uniform(0.6, 0.9)
     table = np.array(
         [((i / 255.0) ** gamma) * 255 for i in range(256)],
@@ -32,14 +41,30 @@ def gamma_adjust(image):
     return cv2.LUT(image, table)
 
 
-def clahe_adjust(image):
+def clahe_adjust(image: NDArray[np.uint8]) -> NDArray[np.uint8]:
+    """Apply CLAHE (local contrast boosting) to the image's lightness channel.
+
+    Args:
+        image: BGR image array.
+
+    Returns:
+        The contrast-enhanced image, same shape and dtype as the input.
+    """
     lab = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
     l, a, b = cv2.split(lab)
     l = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8)).apply(l)
     return cv2.cvtColor(cv2.merge((l, a, b)), cv2.COLOR_LAB2BGR)
 
 
-def brightness_contrast(image):
+def brightness_contrast(image: NDArray[np.uint8]) -> NDArray[np.uint8]:
+    """Apply a random linear brightness/contrast rescale.
+
+    Args:
+        image: BGR image array.
+
+    Returns:
+        The rescaled image, same shape and dtype as the input.
+    """
     alpha = random.uniform(0.8, 1.2)
     beta = random.randint(-25, 25)
     return cv2.convertScaleAbs(image, alpha=alpha, beta=beta)
@@ -52,7 +77,15 @@ METHODS = {
 }
 
 
-def label_classes(label_path):
+def label_classes(label_path: Path) -> set[str]:
+    """Read a YOLO label file and return the set of class names it contains.
+
+    Args:
+        label_path: Path to a `.txt` label file (one object per line).
+
+    Returns:
+        The distinct class names present in this label file.
+    """
     ids = {
         int(line.split()[0])
         for line in label_path.read_text(encoding="utf-8").splitlines()
@@ -61,7 +94,7 @@ def label_classes(label_path):
     return {CLASS_NAMES[i] for i in ids}
 
 
-def main():
+def main() -> None:
     random.seed(SEED)
     np.random.seed(SEED)
 

@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import YOLO_ROOT, CLASS_NAMES
 
 
-def main():
+def main() -> None:
     for split in ["train", "val", "test"]:
         label_dir = YOLO_ROOT / "labels" / split
         class_count = Counter()

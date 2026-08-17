@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import ENHANCED_ROOT, CLASS_NAMES, IMAGE_SUFFIXES
 
 
-def main():
+def main() -> None:
     results = {}
     passed = True
 

@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from config import VOC_IMAGES, VOC_XML, IMAGE_SUFFIXES
 
 
-def main():
+def main() -> None:
     images = {
         p.stem: p for p in VOC_IMAGES.iterdir()
         if p.is_file() and p.suffix.lower() in IMAGE_SUFFIXES

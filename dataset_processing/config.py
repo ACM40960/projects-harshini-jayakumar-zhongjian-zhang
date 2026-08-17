@@ -8,6 +8,7 @@ VOC_XML = ROOT / "raw-dataset" / "Annotations"
 
 YOLO_ROOT = ROOT / "yolo_dataset"
 ENHANCED_ROOT = ROOT / "enhanced_yolo_dataset"
+ENHANCED_ROOT_V2 = ROOT / "enhanced_yolo_dataset_v2"
 
 CLASS_NAMES = [
     "RaccoonDog",
